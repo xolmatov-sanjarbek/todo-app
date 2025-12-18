@@ -5,7 +5,7 @@ class TodosController < ApplicationController
   # GET /todos or /todos.json
   def index
     if authenticated?
-      @todos = Current.user.todos.all
+      @todos = Todo.where(project_id: Current.user.projects.pluck(:id))
     else
       @todos = []
     end
@@ -17,7 +17,7 @@ class TodosController < ApplicationController
 
   # GET /todos/new
   def new
-    @todo = Current.user.todos.new
+    @todo = Current.user.projects.todos.new
   end
 
   # GET /todos/1/edit
@@ -26,7 +26,7 @@ class TodosController < ApplicationController
 
   # POST /todos or /todos.json
   def create
-    @todo = Current.user.todos.new(todo_params)
+    @todo = Current.user.projects.todos.new(todo_params)
 
     respond_to do |format|
       if @todo.save
@@ -65,7 +65,7 @@ class TodosController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_todo
-      @todo = Current.user.todos.find(params.expect(:id))
+      @todo = Current.user.projects.todos.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
