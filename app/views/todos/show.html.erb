@@ -6,8 +6,8 @@
   <% end %>
 
   <h1 class="font-bold text-4xl">Showing todo</h1>
-
-  <%= render @todo %>
+  
+  <%= render partial: "todo", locals: { todo: @todo } %>
 
   <%= link_to "Edit this todo", edit_todo_path(@todo), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-500 hover:bg-blue-400 inline-block font-medium" %>
   <%= link_to "Back to project", project_path(@todo.project), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-indigo-600 hover:bg-indigo-500 inline-block font-medium" %>
