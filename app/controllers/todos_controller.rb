@@ -13,6 +13,7 @@ class TodosController < ApplicationController
 
   # GET /projects/:project_id/todos/new
   def new
+    return redirect_to(projects_path, alert: "Project required") if @project.nil?
     @todo = @project.todos.new
   end
 
@@ -22,6 +23,7 @@ class TodosController < ApplicationController
 
   # POST /projects/:project_id/todos
   def create
+    return redirect_to(projects_path, alert: "Project required") if @project.nil?
     @todo = @project.todos.new(todo_params)
     @todo.user_id = Current.user.id
 

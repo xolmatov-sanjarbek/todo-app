@@ -44,6 +44,22 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
       delete todo_url(@todo)
     end
 
-    assert_redirected_to todos_url
+    assert_redirected_to @todo.project
+  end
+
+  test "should handle missing project gracefully in new action" do
+    # Test that new action works properly when project is present
+    # The guard clause prevents NoMethodError if @project were somehow nil
+    get new_project_todo_url(@todo.project)
+    assert_response :success
+  end
+
+  test "should handle missing project gracefully in create action" do
+    # Test that create action works properly when project is present
+    # The guard clause prevents NoMethodError if @project were somehow nil
+    assert_difference("Todo.count") do
+      post project_todos_url(@todo.project), params: { todo: { completed: false, description: "New todo", name: "Test todo", priority: 1 } }
+    end
+    assert_redirected_to project_url(@todo.project)
   end
 end
