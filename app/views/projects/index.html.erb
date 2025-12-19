@@ -13,9 +13,9 @@
 
   <div id="todos" class="min-w-full space-y-1">
     <% if @projects.any? %>
-      <% @projects.reverse.each do |todo| %>
+      <% @projects.reverse.each do |project| %>
         <div class="flex flex-col sm:flex-row justify-center items-center pb-2 sm:pb-0">
-          <%= render todo %>
+          <%= render project %>
        </div>
       <% end %>
     <% else %>
