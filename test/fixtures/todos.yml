@@ -5,9 +5,13 @@ one:
   description: MyText
   priority: 1
   completed: false
+  user: one
+  project: one
 
 two:
   name: MyString
   description: MyText
   priority: 1
   completed: false
+  user: two
+  project: two

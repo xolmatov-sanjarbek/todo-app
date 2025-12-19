@@ -4,7 +4,7 @@
   <h1 class="font-bold text-4xl">New todo</h1>
 
   <div class="w-full min-w-4xl border rounded-xl p-5 mt-5">
-    <%= render "form", todo: @todo %>
-    <%= link_to "Back to todos", todos_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-red-500 hover:bg-red-600 inline-block font-medium" %>
+    <%= render "form", todo: @todo, project: @project %>
+    <%= link_to "Back to project", project_path(@project), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-red-500 hover:bg-red-600 inline-block font-medium" %>
   </div>
 </div>

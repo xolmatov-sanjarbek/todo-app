@@ -3,24 +3,25 @@ require "test_helper"
 class TodosControllerTest < ActionDispatch::IntegrationTest
   setup do
     @todo = todos(:one)
+    sign_in_as(users(:one))
   end
 
   test "should get index" do
-    get todos_url
+    get project_todos_url(@todo.project)
     assert_response :success
   end
 
   test "should get new" do
-    get new_todo_url
+    get new_project_todo_url(@todo.project)
     assert_response :success
   end
 
   test "should create todo" do
     assert_difference("Todo.count") do
-      post todos_url, params: { todo: { completed: @todo.completed, description: @todo.description, name: @todo.name, priority: @todo.priority } }
+      post project_todos_url(@todo.project), params: { todo: { completed: @todo.completed, description: @todo.description, name: @todo.name, priority: @todo.priority } }
     end
 
-    assert_redirected_to todo_url(Todo.last)
+    assert_redirected_to project_url(@todo.project)
   end
 
   test "should show todo" do

@@ -2,8 +2,15 @@ Rails.application.routes.draw do
   get "sign_ups/show"
   resource :session
   resources :passwords, param: :token
-  resources :todos
+
+  resources :projects do
+    resources :todos, only: %i[index new create]
+  end
+
+  resources :todos, except: %i[index new create]
+
   resource :sign_up
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
