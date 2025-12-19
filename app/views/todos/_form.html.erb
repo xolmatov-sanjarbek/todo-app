@@ -1,4 +1,6 @@
-<%= form_with(model: todo, class: "contents") do |form| %>
+<% project ||= nil %>
+
+<%= form_with(model: (project.present? && !todo.persisted?) ? [project, todo] : todo, class: "contents") do |form| %>
   <% if todo.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>

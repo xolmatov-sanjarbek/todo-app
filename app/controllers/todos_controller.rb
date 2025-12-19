@@ -1,36 +1,33 @@
 class TodosController < ApplicationController
   before_action :set_todo, only: %i[ show edit update destroy ]
-  allow_unauthenticated_access only: %i[ index ]
+  before_action :set_project, only: %i[ index new create ], if: -> { params[:project_id].present? }
 
-  # GET /todos or /todos.json
+  # GET /projects/:project_id/todos
   def index
-    if authenticated?
-      @todos = Todo.where(project_id: Current.user.projects.pluck(:id))
-    else
-      @todos = []
-    end
+    @todos = @project&.todos || Current.user.todos
   end
 
-  # GET /todos/1 or /todos/1.json
+  # GET /todos/1
   def show
   end
 
-  # GET /todos/new
+  # GET /projects/:project_id/todos/new
   def new
-    @todo = Current.user.projects.todos.new
+    @todo = @project.todos.new
   end
 
   # GET /todos/1/edit
   def edit
   end
 
-  # POST /todos or /todos.json
+  # POST /projects/:project_id/todos
   def create
-    @todo = Current.user.projects.todos.new(todo_params)
+    @todo = @project.todos.new(todo_params)
+    @todo.user_id = Current.user.id
 
     respond_to do |format|
       if @todo.save
-        format.html { redirect_to @todo, notice: "Todo was successfully created." }
+        format.html { redirect_to @project, notice: "Todo was successfully created." }
         format.json { render :show, status: :created, location: @todo }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +36,7 @@ class TodosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /todos/1 or /todos/1.json
+  # PATCH/PUT /todos/1
   def update
     respond_to do |format|
       if @todo.update(todo_params)
@@ -52,20 +49,24 @@ class TodosController < ApplicationController
     end
   end
 
-  # DELETE /todos/1 or /todos/1.json
+  # DELETE /todos/1
   def destroy
     @todo.destroy!
 
     respond_to do |format|
-      format.html { redirect_to todos_path, notice: "Todo was successfully destroyed.", status: :see_other }
+      format.html { redirect_to @todo.project, notice: "Todo was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
 
   private
+    def set_project
+      @project = Current.user.projects.find(params.expect(:project_id))
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_todo
-      @todo = Current.user.projects.todos.find(params.expect(:id))
+      @todo = Current.user.todos.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

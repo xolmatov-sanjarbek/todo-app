@@ -1,0 +1,11 @@
+<% content_for :title, "New project" %>
+
+<div class="md:w-2/3 w-full flex flex-col justify-center">
+  <h1 class="font-bold text-4xl">New project</h1>
+
+  <div class="w-full min-w-4xl border rounded-xl p-5 mt-5">
+    <%= render "form", project: @project %>
+    <%= link_to "Back to project", root_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-red-500 hover:bg-red-600 inline-block font-medium" %>
+  </div>
+</div>
+
